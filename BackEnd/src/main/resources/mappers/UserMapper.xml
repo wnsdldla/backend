@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.demo.mapper.UserMapper">
+	<!--
+	<select id="selectUserByNumber" resultType="UserVO">
+		SELECT *
+		FROM SECURITY_USER
+		WHERE USERNUMBER = #{userNumber}
+	</select>
+	<select id="selectAllUsers" resultType="UserVO">
+		SELECT *
+		FROM SECURITY_USER
+	</select>
+	
+	<insert id="insertUser" parameterType="UserVO">
+		INSERT INTO SECURITY_USER 
+		(USERNUMBER, USERID, PASSWORD, USERNAME,ENABLED)
+		VALUES
+		(#{userNumber},#{userId},#{password},#{userName},1)
+	</insert>
+	-->
+	
+	<select id="findByUserId" resultType="com.backend.demo.VO.UserVO">
+		SELECT
+			u.password AS password,
+			u.name AS name,
+			r.role_name AS roleName
+		FROM "USER" u
+		  INNER JOIN user_role ur
+		  ON u.user_no = ur.user_no
+		  INNER JOIN role r 
+		  ON r.role_no = ur.role_no
+		WHERE
+			u.userId = #{userId}
+    </select>
+	
+	<insert id="userSave" parameterType="com.backend.demo.VO.UserVO">
+	    INSERT INTO "USER"     (
+			user_no,
+            userId,
+            password,
+            name
+        )
+        VALUES
+        (
+			SEQ_SECURITY.NEXTVAL,
+            #{userId},
+            #{password},
+            #{name}
+        )
+	</insert>
+
+	<insert id="userRoleSave">
+		INSERT INTO user_role
+        (
+            user_no,
+            role_no
+        )
+        VALUES
+        (
+            #{userNo},
+            #{roleNo}
+        )
+	</insert>
+	
+	<select id="findUserNo" resultType="Integer">
+		SELECT 
+			user_no
+		FROM "USER"
+		WHERE userId = #{userId}
+	</select>
+	
+	<select id="findRoleNo" resultType="Integer">
+		SELECT 
+			role_no
+		FROM role
+		WHERE role_name = #{roleName}
+	</select>
+	
+</mapper>
