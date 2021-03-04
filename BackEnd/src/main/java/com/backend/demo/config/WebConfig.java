@@ -9,8 +9,5 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @MapperScan(value = {"com.backend.demo.mapper"})
 public class WebConfig {
 
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	
 }

@@ -33,4 +33,8 @@ public interface UserMapper {
 	
 	//권한 fk 번호 알아내기
 	int findRoleNo(@Param("roleName") String roleName);
+	
+	//02.18 수정
+	
+	
 }

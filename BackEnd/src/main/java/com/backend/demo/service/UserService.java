@@ -20,30 +20,14 @@ import com.backend.demo.mapper.UserMapper;
 public class UserService implements UserDetailsService{
 
 	@Autowired
-	private UserMapper uMapper;
+	private UserMapper userMapper;
 
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	/* 수정 전
-	public UserVO selectUserByNumber(long userNumber) {
-		return uMapper.selectUserByNumber(userNumber);
-	}
-	
-	public List<UserVO> selectAllUsers(){
-		return uMapper.selectAllUsers();
-	}
-	
-	@Transactional
-	public void insertUser(UserVO user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		System.out.println("insertUser - UserService : "+user.toString());
-		uMapper.insertUser(user);
-	*/
-	//02.17 추가분
+
+
 	@Override
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		System.out.println("userId : "+userId);
-		ArrayList<UserVO> userAuthes = uMapper.findByUserId(userId);
+	public UserPrincipalVO loadUserByUsername(String userId) throws UsernameNotFoundException {
+		System.out.println("userService.class - userId : "+userId);
+		ArrayList<UserVO> userAuthes = userMapper.findByUserId(userId);
 		if(userAuthes.size()==0) {
 			throw new UsernameNotFoundException("User " + userId + " Not Found!");
 		}
@@ -53,13 +37,14 @@ public class UserService implements UserDetailsService{
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
 	public String insertUser(UserVO userVO) {
 		userVO.setRoleName("USER");
-		userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
-		int flag = uMapper.userSave(userVO);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		userVO.setPassword(encoder.encode(userVO.getPassword()));
+		int flag = userMapper.userSave(userVO);
 		if(flag>0) {
-			int userNo = uMapper.findUserNo(userVO.getUserId());
-			int roleNo = uMapper.findRoleNo(userVO.getRoleName());
+			int userNo = userMapper.findUserNo(userVO.getUserId());
+			int roleNo = userMapper.findRoleNo(userVO.getRoleName());
 			
-			uMapper.userRoleSave(userNo, roleNo);
+			userMapper.userRoleSave(userNo, roleNo);
 			return "success";
 		}
 		return "fail";

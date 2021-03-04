@@ -34,7 +34,7 @@ public class UserPrincipalVO implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return userVO.get(0).getName();
+		return userVO.get(0).getUserId();
 	}
 
 	@Override

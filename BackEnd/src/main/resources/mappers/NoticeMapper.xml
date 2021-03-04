@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.demo.mapper.NoticeMapper">
+	<select id="noticeList" resultType="com.backend.demo.VO.NoticeVO">
+		SELECT 
+			NOTICENUM,
+			NOTICETITLE,
+			NOTICECONTENTS,
+			NOTICEDATE,
+			ADMINEMAIL,
+			READCOUNT
+		FROM NOTICE
+		ORDER BY NOTICENUM DESC
+	</select>
+	
+	<select id="noticeRead" resultType="com.backend.demo.VO.NoticeVO">
+		SELECT * FROM NOTICE WHERE NOTICENUM = #{noticeNum}
+	</select>
+	
+	<insert id="noticeRegister">
+		
+		INSERT INTO NOTICE VALUES 
+		(SEQ_NOTICE.NEXTVAL, #{noticeTitle},#{noticeContents},SYSDATE,#{adminEmail},0)
+	</insert>
+	
+	<update id="noticeModify">
+		UPDATE NOTICE
+		SET NOTICECONTENTS = #{noticeContents} , NOTICEDATE=SYSDATE ,NOTICETITLE = #{noticeTitle}
+		WHERE NOTICENUM = #{noticeNum}
+	</update>
+	
+	<update id="noticeReadCount">
+		UPDATE NOTICE
+		SET READCOUNT = READCOUNT + 1
+		WHERE NOTICENUM = #{noticeNum}
+	</update>
+	
+	<delete id="noticeDelete" >
+		DELETE FROM NOTICE
+		WHERE NOTICENUM = #{noticeNum}
+	</delete>
+</mapper>
+
+

@@ -42,6 +42,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- 02.19 톰캣에러 수정 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+		</dependency>		
+		
 		<!-- 02.16 11:30 add -->
 		<!-- spring security -->
 		<dependency>
@@ -66,6 +72,13 @@
 			<version>1.9.13 </version>
 		</dependency>
 		
+		<!-- 02.19 -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -82,6 +95,9 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			
+			
+
 		</plugins>
 	</build>
 

@@ -21,12 +21,15 @@
 	</insert>
 	-->
 	
+	
+	
 	<select id="findByUserId" resultType="com.backend.demo.VO.UserVO">
 		SELECT
 			u.password AS password,
 			u.name AS name,
+			u.userId AS userId,
 			r.role_name AS roleName
-		FROM "USER" u
+		FROM DEMO_USER u
 		  INNER JOIN user_role ur
 		  ON u.user_no = ur.user_no
 		  INNER JOIN role r 
@@ -36,7 +39,7 @@
     </select>
 	
 	<insert id="userSave" parameterType="com.backend.demo.VO.UserVO">
-	    INSERT INTO "USER"     (
+	    INSERT INTO DEMO_USER     (
 			user_no,
             userId,
             password,
@@ -67,7 +70,7 @@
 	<select id="findUserNo" resultType="Integer">
 		SELECT 
 			user_no
-		FROM "USER"
+		FROM DEMO_USER
 		WHERE userId = #{userId}
 	</select>
 	
